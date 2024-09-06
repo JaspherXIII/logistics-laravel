@@ -83,7 +83,6 @@ class SupplierController extends Controller
             return response()->json(['error' => 'Supplier not found'], 404);
         }
 
-        // Assuming a supplier might have related subjects or entities
         if ($supplier->subjects()->exists()) {
             return response()->json(['error' => 'Supplier has associated subjects, cannot be deleted'], 422);
         }

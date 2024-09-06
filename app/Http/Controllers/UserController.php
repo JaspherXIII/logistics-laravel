@@ -29,56 +29,6 @@ class UserController extends Controller
         return view('dashboards.users.profile', compact('courses'));
     }
 
-    public function schedule()
-    {
-        return view('dashboards.users.schedule');
-    }
-
-    public function getSchedules()
-    {
-        $user = Auth::user();
-
-        $student = $user->student;
-
-        if (!$student) {
-            return response()->json(['error' => 'Student not found'], 404);
-        }
-
-        $student->load('course.subjects.schedules');
-
-        $formattedSchedules = [];
-        foreach ($student->course->subjects as $subject) {
-            foreach ($subject->schedules as $sched) {
-                $formattedTimeFrom = date('h:i A', strtotime($sched->time_from));
-                $formattedTimeTo = date('h:i A', strtotime($sched->time_to));
-
-                $formattedSchedules[] = [
-                    'subject_name' => $subject->name,
-                    'unit' => $subject->unit,
-                    'schedule' => $formattedTimeFrom . ' - ' . $formattedTimeTo . ' ' . $sched->sched_day,
-                    'instructor' => $subject->instructor->name
-                ];
-            }
-        }
-
-        $student->course_id = optional($student->course)->id;
-        $student->course_name = $student->course ? $student->course->name . ' - ' . $student->course->year_level : 'No Course Assigned';
-        $student->user_id = $user->id;
-        $student->picture = $user->picture;
-
-        return response()->json([
-            'student' => $student,
-            'schedule' => $formattedSchedules,
-        ]);
-    }
-
-
-    public function student()
-    {
-        return view('dashboards.users.students');
-    }
-
-
 
     public function settings()
     {

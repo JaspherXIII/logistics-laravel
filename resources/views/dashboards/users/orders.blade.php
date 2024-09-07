@@ -27,7 +27,7 @@
                                 <th>Supplier</th>
                                 <th>Delivery Status</th>
                                 <th>Action</th>
-                            </tr>
+                            </tr> 
                         </thead>
                         <tbody class="ligth-body">
                         </tbody>
